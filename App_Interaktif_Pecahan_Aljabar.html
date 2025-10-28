@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Interaktif: Pecahan Aljabar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #FFC107;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-container {
+            padding: 30px 20px;
+            min-height: 400px;
+        }
+        
+        .question-number {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        .justice-context {
+            background: #E8F5E9;
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .tip-helper {
+            background: #FFF9C4;
+            padding: 15px;
+            border-left: 4px solid #FBC02D;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .tip-helper strong {
+            color: #F57F17;
+        }
+        
+        .input-area {
+            margin: 25px 0;
+        }
+        
+        .input-area input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-area input[type="text"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+        
+        .option:hover {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+        }
+        
+        .option.selected {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .option.incorrect {
+            background: #F44336;
+            color: white;
+            border-color: #F44336;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            color: #2E7D32;
+        }
+        
+        .feedback.incorrect {
+            background: #FFEBEE;
+            border-left: 4px solid #F44336;
+            color: #C62828;
+        }
+        
+        .feedback-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .explanation {
+            margin-top: 10px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .button-container {
+            padding: 20px;
+            background: #f9f9f9;
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary {
+            background: #ddd;
+            color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+        
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #388E3C;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #45a049;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .result-screen {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .result-screen.show {
+            display: block;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .score-label {
+            font-size: 0.4em;
+            margin-top: 5px;
+        }
+        
+        .result-message {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #333;
+        }
+        
+        .result-details {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .congrats-badge {
+            background: #FFC107;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.2em;
+            }
+            
+            .question-text {
+                font-size: 1em;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>➗ Latihan Interaktif: Pecahan Aljabar</h1>
+            <p>Tema Keadilan Sosial - Review Lengkap</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0/12</div>
+        </div>
+        
+        <div class="question-container" id="questionContainer">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+        
+        <div class="button-container">
+            <button class="btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>⬅ Sebelumnya</button>
+            <button class="btn-primary" id="checkBtn" onclick="checkAnswer()">Cek Jawaban ✓</button>
+            <button class="btn-success" id="nextBtn" onclick="nextQuestion()" style="display:none;">Lanjut ➡</button>
+        </div>
+        
+        <div class="result-screen" id="resultScreen">
+            <div class="score-circle">
+                <span id="finalScore">0</span>
+                <span class="score-label">/ 12</span>
+            </div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="congrats-badge" id="congratsBadge" style="display:none;">🎓 SELESAI! Kamu Menguasai Operasi Aljabar!</div>
+            <div class="result-details">
+                <div class="detail-row">
+                    <span>✅ Jawaban Benar:</span>
+                    <span id="correctCount">0</span>
+                </div>
+                <div class="detail-row">
+                    <span>❌ Jawaban Salah:</span>
+                    <span id="incorrectCount">0</span>
+                </div>
+                <div class="detail-row">
+                    <span>📊 Persentase:</span>
+                    <span id="percentage">0%</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="restartQuiz()" style="width: 100%; margin-top: 20px;">🔄 Ulangi Latihan</button>
+            <button class="btn-secondary" onclick="window.location.href='App_Menu_Utama_Operasi_Aljabar.html'" style="width: 100%; margin-top: 10px;">🏠 Kembali ke Menu</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // BAGIAN 1: MENYEDERHANAKAN PECAHAN
+            {
+                type: 'multiple-choice',
+                question: 'Sederhanakan: 8x / 4x',
+                options: ['2', '2x', '8/4', '4x²'],
+                correct: 0,
+                explanation: '8x / 4x = (8÷4) × (x÷x) = 2 × 1 = 2',
+                helper: '💡 Tips: Bagi koefisien dan variabel secara terpisah'
+            },
+            {
+                type: 'text-input',
+                question: 'Sederhanakan: (6a + 12) / 6',
+                answer: 'a+2',
+                alternatives: ['a + 2', 'a +2', 'a+ 2'],
+                explanation: '(6a + 12) / 6 = 6a/6 + 12/6 = a + 2'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Hasil dari (x² + 4x) / x adalah...',
+                options: ['x + 4', 'x² + 4', 'x + 4x', '4x'],
+                correct: 0,
+                explanation: '(x² + 4x) / x = x²/x + 4x/x = x + 4'
+            },
+            
+            // BAGIAN 2: PENJUMLAHAN & PENGURANGAN
+            {
+                type: 'text-input',
+                question: 'Hitung: 3x/7 + 2x/7',
+                answer: '5x/7',
+                alternatives: ['5x / 7', '(5x)/7'],
+                explanation: 'Penyebut sama, jadi jumlahkan pembilang: (3x + 2x)/7 = 5x/7',
+                helper: '💡 Penyebut sama → langsung jumlahkan pembilang'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Hasil dari x/2 + x/4 adalah...',
+                options: ['3x/4', 'x/6', '2x/4', 'x/3'],
+                correct: 0,
+                explanation: 'KPK dari 2 dan 4 adalah 4. x/2 = 2x/4. Jadi 2x/4 + x/4 = 3x/4'
+            },
+            {
+                type: 'text-input',
+                question: 'Hitung: 5y/6 - y/6',
+                answer: '4y/6',
+                alternatives: ['4y / 6', '(4y)/6', '2y/3'],
+                explanation: 'Penyebut sama: (5y - y)/6 = 4y/6 (atau disederhanakan jadi 2y/3)'
+            },
+            
+            // BAGIAN 3: PERKALIAN & PEMBAGIAN
+            {
+                type: 'multiple-choice',
+                question: 'Hasil dari (2a/3) × (3/4) adalah...',
+                options: ['a/2', '2a/12', '6a/12', 'a/4'],
+                correct: 0,
+                explanation: '(2a/3) × (3/4) = (2a × 3)/(3 × 4) = 6a/12 = a/2'
+            },
+            {
+                type: 'text-input',
+                question: 'Hitung: (x/4) ÷ (2/5)',
+                answer: '5x/8',
+                alternatives: ['5x / 8', '(5x)/8'],
+                explanation: '(x/4) ÷ (2/5) = (x/4) × (5/2) = 5x/8',
+                helper: '💡 Pembagian = kalikan dengan kebalikan'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Lahan seluas (6x + 12) hektar dibagi 6 keluarga. Luas per keluarga?',
+                context: '⚖️ Distribusi Lahan yang Adil',
+                options: ['(x + 2) hektar', '6x + 2 hektar', 'x + 6 hektar', '(6x + 12)/6 hektar'],
+                correct: 0,
+                explanation: '(6x + 12) / 6 = 6x/6 + 12/6 = x + 2 hektar per keluarga'
+            },
+            
+            // BAGIAN 4: REVIEW OPERASI ALJABAR
+            {
+                type: 'multiple-choice',
+                question: 'REVIEW: Hasil dari (x + 3)(x + 2) adalah...',
+                options: ['x² + 5x + 6', 'x² + 6', '2x + 5', 'x² + 3x + 2'],
+                correct: 0,
+                explanation: 'FOIL: x² + 2x + 3x + 6 = x² + 5x + 6'
+            },
+            {
+                type: 'text-input',
+                question: 'REVIEW: Sederhanakan: 3(2x + 4) + 2(x + 1)',
+                answer: '8x+14',
+                alternatives: ['8x + 14', '8x +14', '8 x + 14'],
+                explanation: 'Ekspansi: 6x + 12 + 2x + 2 = 8x + 14'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'REVIEW: Total dana dari 4(x + 50) + 3(2x + 40) + 5(x + 30) ribu rupiah adalah...',
+                context: '⚖️ Soal Aplikasi Keadilan Sosial',
+                options: ['15x + 470 ribu', '12x + 450 ribu', '15x + 350 ribu', '12x + 470 ribu'],
+                correct: 0,
+                explanation: 'Ekspansi: 4x + 200 + 6x + 120 + 5x + 150 = 15x + 470 ribu rupiah'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let html = `
+                <div class="question-number">Soal ${currentQuestion + 1} dari ${questions.length}</div>
+            `;
+            
+            if (q.context) {
+                html += `<div class="justice-context">⚖️ ${q.context}</div>`;
+            }
+            
+            html += `<div class="question-text">${q.question}</div>`;
+            
+            if (q.helper) {
+                html += `<div class="tip-helper"><strong>${q.helper}</strong></div>`;
+            }
+            
+            if (q.type === 'multiple-choice') {
+                html += '<div class="options">';
+                q.options.forEach((option, index) => {
+                    html += `<div class="option" onclick="selectOption(${index})">${option}</div>`;
+                });
+                html += '</div>';
+            } else if (q.type === 'text-input') {
+                html += `
+                    <div class="input-area">
+                        <input type="text" id="textAnswer" placeholder="Tulis jawabanmu di sini..." onkeypress="handleEnter(event)">
+                    </div>
+                `;
+            }
+            
+            html += '<div class="feedback" id="feedback"></div>';
+            
+            container.innerHTML = html;
+            
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            let isCorrect = false;
+            
+            if (q.type === 'multiple-choice') {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) {
+                    alert('Pilih jawaban terlebih dahulu!');
+                    return;
+                }
+                
+                const selectedIndex = Array.from(document.querySelectorAll('.option')).indexOf(selected);
+                isCorrect = selectedIndex === q.correct;
+                
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, idx) => {
+                    if (idx === q.correct) {
+                        opt.classList.add('correct');
+                    } else if (idx === selectedIndex && !isCorrect) {
+                        opt.classList.add('incorrect');
+                    }
+                    opt.style.pointerEvents = 'none';
+                });
+                
+            } else if (q.type === 'text-input') {
+                const input = document.getElementById('textAnswer');
+                const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, '');
+                
+                if (!userAnswer) {
+                    alert('Tulis jawaban terlebih dahulu!');
+                    return;
+                }
+                
+                const correctAnswer = q.answer.toLowerCase().replace(/\s+/g, '');
+                const alternatives = q.alternatives ? q.alternatives.map(a => a.toLowerCase().replace(/\s+/g, '')) : [];
+                
+                isCorrect = userAnswer === correctAnswer || alternatives.includes(userAnswer);
+                
+                input.disabled = true;
+                input.style.borderColor = isCorrect ? '#4CAF50' : '#F44336';
+                input.style.background = isCorrect ? '#E8F5E9' : '#FFEBEE';
+            }
+            
+            if (isCorrect) {
+                score++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `
+                    <div><span class="feedback-icon">✅</span><strong>Benar!</strong> Hebat sekali!</div>
+                    <div class="explanation">${q.explanation}</div>
+                `;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = `
+                    <div><span class="feedback-icon">❌</span><strong>Belum tepat.</strong> Mari kita pelajari lagi.</div>
+                    <div class="explanation">${q.explanation}</div>
+                `;
+            }
+            
+            answered = true;
+            updateButtons();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter' && !answered) {
+                checkAnswer();
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const percentage = ((currentQuestion) / questions.length) * 100;
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${currentQuestion}/${questions.length}`;
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const checkBtn = document.getElementById('checkBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (answered) {
+                checkBtn.style.display = 'none';
+                nextBtn.style.display = 'block';
+            } else {
+                checkBtn.style.display = 'block';
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        function showResults() {
+            document.getElementById('questionContainer').style.display = 'none';
+            document.querySelector('.button-container').style.display = 'none';
+            
+            const resultScreen = document.getElementById('resultScreen');
+            const finalScore = document.getElementById('finalScore');
+            const correctCount = document.getElementById('correctCount');
+            const incorrectCount = document.getElementById('incorrectCount');
+            const percentage = document.getElementById('percentage');
+            const resultMessage = document.getElementById('resultMessage');
+            const congratsBadge = document.getElementById('congratsBadge');
+            
+            finalScore.textContent = score;
+            correctCount.textContent = score;
+            incorrectCount.textContent = questions.length - score;
+            percentage.textContent = Math.round((score / questions.length) * 100) + '%';
+            
+            if (score === questions.length) {
+                resultMessage.innerHTML = '🎉 SEMPURNA! Kamu menguasai SEMUA materi operasi aljabar!';
+                congratsBadge.style.display = 'inline-block';
+            } else if (score >= questions.length * 0.8) {
+                resultMessage.innerHTML = '🌟 Bagus sekali! Kamu hampir menguasai semua materi!';
+            } else if (score >= questions.length * 0.6) {
+                resultMessage.innerHTML = '👍 Cukup baik! Terus berlatih untuk lebih mahir!';
+            } else {
+                resultMessage.innerHTML = '💪 Tetap semangat! Ulangi lagi untuk memperkuat pemahaman.';
+            }
+            
+            resultScreen.classList.add('show');
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.querySelector('.button-container').style.display = 'flex';
+            document.getElementById('resultScreen').classList.remove('show');
+            
+            loadQuestion();
+        }
+
+        window.onload = function() {
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>

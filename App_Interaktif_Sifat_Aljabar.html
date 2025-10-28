@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Interaktif: Sifat Aljabar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-container {
+            padding: 30px 20px;
+            min-height: 400px;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        .justice-context {
+            background: #FFF3E0;
+            padding: 15px;
+            border-left: 4px solid #FF9800;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .input-area {
+            margin: 25px 0;
+        }
+        
+        .input-area input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-area input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+        
+        .option:hover {
+            background: #e8f0fe;
+            border-color: #667eea;
+        }
+        
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .option.incorrect {
+            background: #F44336;
+            color: white;
+            border-color: #F44336;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            color: #2E7D32;
+        }
+        
+        .feedback.incorrect {
+            background: #FFEBEE;
+            border-left: 4px solid #F44336;
+            color: #C62828;
+        }
+        
+        .feedback-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .explanation {
+            margin-top: 10px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .button-container {
+            padding: 20px;
+            background: #f9f9f9;
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary {
+            background: #ddd;
+            color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #45a049;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .result-screen {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .result-screen.show {
+            display: block;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .score-label {
+            font-size: 0.4em;
+            margin-top: 5px;
+        }
+        
+        .result-message {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #333;
+        }
+        
+        .result-details {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.2em;
+            }
+            
+            .question-text {
+                font-size: 1em;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Latihan Interaktif: Sifat Aljabar</h1>
+            <p>Tema Keadilan Sosial</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0/10</div>
+        </div>
+        
+        <div class="question-container" id="questionContainer">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+        
+        <div class="button-container">
+            <button class="btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>⬅ Sebelumnya</button>
+            <button class="btn-primary" id="checkBtn" onclick="checkAnswer()">Cek Jawaban ✓</button>
+            <button class="btn-success" id="nextBtn" onclick="nextQuestion()" style="display:none;">Lanjut ➡</button>
+        </div>
+        
+        <div class="result-screen" id="resultScreen">
+            <div class="score-circle">
+                <span id="finalScore">0</span>
+                <span class="score-label">/ 10</span>
+            </div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="result-details">
+                <div class="detail-row">
+                    <span>✅ Jawaban Benar:</span>
+                    <span id="correctCount">0</span>
+                </div>
+                <div class="detail-row">
+                    <span>❌ Jawaban Salah:</span>
+                    <span id="incorrectCount">0</span>
+                </div>
+                <div class="detail-row">
+                    <span>📊 Persentase:</span>
+                    <span id="percentage">0%</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="restartQuiz()" style="width: 100%; margin-top: 20px;">🔄 Ulangi Latihan</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                type: 'multiple-choice',
+                question: 'Sifat komutatif pada penjumlahan aljabar menyatakan bahwa:',
+                options: [
+                    'a + b = b + a',
+                    'a + b = a - b',
+                    'a × b = b × a',
+                    'a + (b + c) = (a + b) + c'
+                ],
+                correct: 0,
+                explanation: 'Sifat komutatif menyatakan bahwa urutan penjumlahan tidak mempengaruhi hasil. Jadi a + b = b + a. Contoh: 3x + 5x = 5x + 3x = 8x'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Hasil dari 5x + 7x adalah...',
+                options: [
+                    '12x',
+                    '35x',
+                    '12x²',
+                    '5x + 7x'
+                ],
+                correct: 0,
+                explanation: '5x dan 7x adalah suku sejenis (sama-sama memiliki variabel x). Jadi kita bisa menjumlahkan koefisiennya: 5 + 7 = 12, sehingga 5x + 7x = 12x'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Apakah 3x dan 5y merupakan suku sejenis?',
+                context: 'Memahami suku sejenis penting untuk distribusi bantuan yang adil',
+                options: [
+                    'Tidak, karena variabelnya berbeda',
+                    'Ya, karena sama-sama suku aljabar',
+                    'Ya, karena koefisiennya berbeda',
+                    'Tidak, karena koefisiennya berbeda'
+                ],
+                correct: 0,
+                explanation: 'Suku sejenis harus memiliki variabel yang SAMA dan pangkat yang sama. 3x memiliki variabel x, sedangkan 5y memiliki variabel y. Jadi mereka BUKAN suku sejenis.'
+            },
+            {
+                type: 'text-input',
+                question: 'Sederhanakan: 8a + 3a = ?',
+                answer: '11a',
+                alternatives: ['11 a', 'a11'],
+                explanation: '8a dan 3a adalah suku sejenis, jadi kita jumlahkan koefisiennya: 8 + 3 = 11, sehingga 8a + 3a = 11a'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Hasil dari (6x + 4y) + (3x + 2y) adalah...',
+                context: 'Kelas 7A mengumpulkan (6x + 4y) ribu dan kelas 7B mengumpulkan (3x + 2y) ribu. Berapa total dana?',
+                options: [
+                    '9x + 6y',
+                    '9xy + 6xy',
+                    '6x + 6y',
+                    '9x + 4y'
+                ],
+                correct: 0,
+                explanation: 'Gabungkan suku sejenis: (6x + 3x) + (4y + 2y) = 9x + 6y. Jadi total dana yang terkumpul adalah (9x + 6y) ribu rupiah.'
+            },
+            {
+                type: 'text-input',
+                question: 'Sederhanakan: (10m + 7n) - (4m + 2n) = ?',
+                answer: '6m+5n',
+                alternatives: ['6m + 5n', '6m +5n', '6 m + 5 n', '6m+ 5n'],
+                explanation: 'Kurangi suku sejenis: (10m - 4m) + (7n - 2n) = 6m + 5n. Ingat tanda negatif berlaku untuk semua suku dalam kurung!'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Sifat asosiatif menyatakan bahwa:',
+                options: [
+                    '(a + b) + c = a + (b + c)',
+                    'a + b = b + a',
+                    'a(b + c) = ab + ac',
+                    'a + 0 = a'
+                ],
+                correct: 0,
+                explanation: 'Sifat asosiatif menyatakan bahwa pengelompokan dalam penjumlahan tidak mempengaruhi hasil. Contoh: (2x + 3x) + 4x = 2x + (3x + 4x) = 9x'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Hasil dari 4(2x + 3) menggunakan sifat distributif adalah...',
+                options: [
+                    '8x + 12',
+                    '6x + 7',
+                    '8x + 3',
+                    '4x + 12'
+                ],
+                correct: 0,
+                explanation: 'Sifat distributif: a(b + c) = ab + ac. Jadi 4(2x + 3) = (4 × 2x) + (4 × 3) = 8x + 12'
+            },
+            {
+                type: 'text-input',
+                question: 'Hitung: 5(x + 7) = ?',
+                answer: '5x+35',
+                alternatives: ['5x + 35', '5x +35', '5 x + 35', '5x+ 35'],
+                explanation: 'Gunakan sifat distributif: 5(x + 7) = 5 × x + 5 × 7 = 5x + 35'
+            },
+            {
+                type: 'multiple-choice',
+                question: 'Kelas 7A membawa (5x + 2y) paket, kelas 7B membawa (3x + 4y) paket, dan kelas 7C menggunakan (2x + y) paket. Berapa sisa paket?',
+                context: '⚖️ Aplikasi Keadilan: Menghitung distribusi bantuan yang adil',
+                options: [
+                    '6x + 5y',
+                    '10x + 7y',
+                    '8x + 6y',
+                    '6x + 7y'
+                ],
+                correct: 0,
+                explanation: 'Total dibawa: (5x + 2y) + (3x + 4y) = 8x + 6y. Digunakan: 2x + y. Sisa: (8x + 6y) - (2x + y) = (8x - 2x) + (6y - y) = 6x + 5y paket'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let html = `
+                <div class="question-number">Soal ${currentQuestion + 1} dari ${questions.length}</div>
+            `;
+            
+            if (q.context) {
+                html += `<div class="justice-context">⚖️ ${q.context}</div>`;
+            }
+            
+            html += `<div class="question-text">${q.question}</div>`;
+            
+            if (q.type === 'multiple-choice') {
+                html += '<div class="options">';
+                q.options.forEach((option, index) => {
+                    html += `<div class="option" onclick="selectOption(${index})">${option}</div>`;
+                });
+                html += '</div>';
+            } else if (q.type === 'text-input') {
+                html += `
+                    <div class="input-area">
+                        <input type="text" id="textAnswer" placeholder="Tulis jawabanmu di sini..." onkeypress="handleEnter(event)">
+                    </div>
+                `;
+            }
+            
+            html += '<div class="feedback" id="feedback"></div>';
+            
+            container.innerHTML = html;
+            
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            let isCorrect = false;
+            
+            if (q.type === 'multiple-choice') {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) {
+                    alert('Pilih jawaban terlebih dahulu!');
+                    return;
+                }
+                
+                const selectedIndex = Array.from(document.querySelectorAll('.option')).indexOf(selected);
+                isCorrect = selectedIndex === q.correct;
+                
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, idx) => {
+                    if (idx === q.correct) {
+                        opt.classList.add('correct');
+                    } else if (idx === selectedIndex && !isCorrect) {
+                        opt.classList.add('incorrect');
+                    }
+                    opt.style.pointerEvents = 'none';
+                });
+                
+                userAnswers.push({
+                    question: currentQuestion,
+                    selected: selectedIndex,
+                    correct: isCorrect
+                });
+                
+            } else if (q.type === 'text-input') {
+                const input = document.getElementById('textAnswer');
+                const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, '');
+                
+                if (!userAnswer) {
+                    alert('Tulis jawaban terlebih dahulu!');
+                    return;
+                }
+                
+                const correctAnswer = q.answer.toLowerCase().replace(/\s+/g, '');
+                const alternatives = q.alternatives ? q.alternatives.map(a => a.toLowerCase().replace(/\s+/g, '')) : [];
+                
+                isCorrect = userAnswer === correctAnswer || alternatives.includes(userAnswer);
+                
+                input.disabled = true;
+                input.style.borderColor = isCorrect ? '#4CAF50' : '#F44336';
+                input.style.background = isCorrect ? '#E8F5E9' : '#FFEBEE';
+                
+                userAnswers.push({
+                    question: currentQuestion,
+                    answer: input.value,
+                    correct: isCorrect
+                });
+            }
+            
+            if (isCorrect) {
+                score++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `
+                    <div><span class="feedback-icon">✅</span><strong>Benar!</strong> Hebat sekali!</div>
+                    <div class="explanation">${q.explanation}</div>
+                `;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = `
+                    <div><span class="feedback-icon">❌</span><strong>Belum tepat.</strong> Mari kita pelajari lagi.</div>
+                    <div class="explanation">${q.explanation}</div>
+                `;
+            }
+            
+            answered = true;
+            updateButtons();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter' && !answered) {
+                checkAnswer();
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const percentage = ((currentQuestion) / questions.length) * 100;
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${currentQuestion}/${questions.length}`;
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const checkBtn = document.getElementById('checkBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (answered) {
+                checkBtn.style.display = 'none';
+                nextBtn.style.display = 'block';
+            } else {
+                checkBtn.style.display = 'block';
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        function showResults() {
+            document.getElementById('questionContainer').style.display = 'none';
+            document.querySelector('.button-container').style.display = 'none';
+            
+            const resultScreen = document.getElementById('resultScreen');
+            const finalScore = document.getElementById('finalScore');
+            const correctCount = document.getElementById('correctCount');
+            const incorrectCount = document.getElementById('incorrectCount');
+            const percentage = document.getElementById('percentage');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            finalScore.textContent = score;
+            correctCount.textContent = score;
+            incorrectCount.textContent = questions.length - score;
+            percentage.textContent = Math.round((score / questions.length) * 100) + '%';
+            
+            if (score === questions.length) {
+                resultMessage.innerHTML = '🎉 Sempurna! Kamu menguasai sifat aljabar!';
+            } else if (score >= questions.length * 0.8) {
+                resultMessage.innerHTML = '🌟 Bagus sekali! Terus pertahankan!';
+            } else if (score >= questions.length * 0.6) {
+                resultMessage.innerHTML = '👍 Cukup baik! Terus berlatih ya!';
+            } else {
+                resultMessage.innerHTML = '💪 Jangan menyerah! Coba lagi untuk meningkatkan pemahaman.';
+            }
+            
+            resultScreen.classList.add('show');
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.querySelector('.button-container').style.display = 'flex';
+            document.getElementById('resultScreen').classList.remove('show');
+            
+            loadQuestion();
+        }
+
+        // Load first question on page load
+        window.onload = function() {
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>
